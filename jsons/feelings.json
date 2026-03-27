@@ -13,6 +13,7 @@
     { "word": "smart",      "url": "https://www.khronos.org/sycl/"},
     { "word": "graphics",   "url": "https://www.vulkan.org/"},
     { "word": "money",      "url": "https://www.youtube.com/watch?v=ETxmCCsMoD0"},
-    { "word": "lonely",     "url": "html/lonely.html"}
+    { "word": "lonely",     "url": "html/lonely.html"},
+	{ "word": "apple",      "url": "https://asahilinux.org/"}
   ]
 }
