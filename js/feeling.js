@@ -40,6 +40,11 @@ btn.addEventListener('mouseenter', () => {
     }
 });
 
+// Auto-cycle on touch devices that don't support hover
+if (window.matchMedia('(hover: none)').matches) {
+    setInterval(randomize, 1400);
+}
+
 btn.addEventListener('click', () => {
     if (currentFeeling) {
         // Only propagate theme via URL param when no cookie is set
