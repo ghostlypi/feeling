@@ -1,0 +1,18 @@
+{
+  "default": "norminal",
+  "feelings": [
+    { "word": "norminal",   "url": "https://parthiyer.com"},
+    { "word": "curious",    "url": "https://en.wikipedia.org/wiki/Special:Random"},
+    { "word": "gamer",      "url": "https://store.steampowered.com/app/1660910/Tanks_The_Crusades/"},
+    { "word": "adrenaline", "url": "https://www.amd.com/en/products/software/adrenalin.html"},
+    { "word": "blue",       "url": "https://ispc.github.io/"},
+    { "word": "ai",         "url": "https://developer.nvidia.com/cuda/toolkit"},
+    { "word": "dramatic",   "url": "html/dramatic.html"},
+    { "word": "friends",    "url": "html/friends.html"},
+    { "word": "tired",      "url": "html/tired.html"},
+    { "word": "smart",      "url": "https://www.khronos.org/sycl/"},
+    { "word": "graphics",   "url": "https://www.vulkan.org/"},
+    { "word": "money",      "url": "https://www.youtube.com/watch?v=ETxmCCsMoD0"},
+    { "word": "lonely",     "url": "html/lonely.html"}
+  ]
+}

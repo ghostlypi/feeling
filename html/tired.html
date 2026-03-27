@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'm Feeling... Tired</title>
+    <link rel="icon" href="../images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/loader.css">
+    <link rel="stylesheet" href="" id="theme-style">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=SUSE+Mono:ital,wght@0,100..800;1,100..800&family=SUSE:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <style>
+        #loader-wrapper {
+            /* Always visible — never gets .loaded class */
+            flex-direction: column;
+            gap: 20px;
+        }
+        .loader-message {
+            font-family: 'SUSE', sans-serif;
+            font-size: 0.9rem;
+            color: rgba(240, 240, 240, 0.5);
+            margin: 0;
+            transition: opacity 0.5s ease;
+        }
+        .loader-escape {
+            font-family: 'SUSE', sans-serif;
+            font-size: 0.75rem;
+            color: rgba(240, 240, 240, 0.2);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .loader-escape:hover {
+            color: rgba(240, 240, 240, 0.6);
+        }
+
+        /* Light mode */
+        body.light-mode .loader-message {
+            color: rgba(30, 30, 30, 0.5);
+        }
+        body.light-mode .loader-escape {
+            color: rgba(30, 30, 30, 0.2);
+        }
+        body.light-mode .loader-escape:hover {
+            color: rgba(30, 30, 30, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <div id="loader-wrapper">
+        <div class="loader-container">
+            <div class="liquid" id="liquid">
+                <div class="bubbles" id="bubbles"></div>
+            </div>
+        </div>
+        <p class="loader-message" id="loader-message">one moment...</p>
+        <a href="../index.html" class="loader-escape">...maybe later</a>
+    </div>
+
+    <!-- Behind the loader — theme.js needs the checkbox in the DOM -->
+    <nav style="visibility: hidden;">
+        <div class="nav-container">
+            <ul>
+                <li>
+                    <label class="theme-switch" for="checkbox">
+                        <input type="checkbox" id="checkbox" />
+                        <div class="slider round"><div class="slider-icons"></div></div>
+                    </label>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <script src="../js/theme.js"></script>
+    <script src="../js/tired-loader.js"></script>
+</body>
+</html>

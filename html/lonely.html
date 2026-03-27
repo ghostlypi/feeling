@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'm Feeling... Lonely</title>
+    <link rel="icon" href="../images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/loader.css">
+    <link rel="stylesheet" href="" id="theme-style">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=SUSE+Mono:ital,wght@0,100..800;1,100..800&family=SUSE:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <style>
+        .lonely-frame {
+            max-width: 580px;
+            margin: 48px auto;
+            text-align: center;
+        }
+        .lonely-prompt {
+            color: #888;
+            font-size: 0.9rem;
+            margin: 0 0 28px;
+        }
+        .symbol-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+        .symbol-btn {
+            font-family: 'SUSE Mono', monospace;
+            font-size: 1.7rem;
+            aspect-ratio: 1;
+            background: #2a2a2a;
+            border: 1px solid #3a3a3a;
+            border-radius: 10px;
+            color: #f0f0f0;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s, transform 0.15s, opacity 0.15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        .symbol-btn:hover:not(:disabled) {
+            background: #333;
+            border-color: #20c997;
+            transform: scale(1.08);
+        }
+        .symbol-btn:active:not(:disabled) {
+            transform: scale(0.95);
+        }
+        .symbol-btn:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+        .symbol-msg {
+            min-height: 1.4em;
+            font-size: 0.82rem;
+            color: #555;
+            margin-bottom: 16px;
+            font-family: 'SUSE Mono', monospace;
+        }
+        .grid-controls {
+            display: flex;
+            justify-content: center;
+        }
+        .next-btn {
+            font-family: 'SUSE', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 10px 32px;
+            border: 1px solid #444;
+            border-radius: 50px;
+            background: transparent;
+            color: #888;
+            cursor: pointer;
+            transition: border-color 0.2s, color 0.2s, transform 0.2s;
+        }
+        .next-btn:hover {
+            border-color: #20c997;
+            color: #20c997;
+            transform: scale(1.04);
+        }
+        .invite-section {
+            display: none;
+        }
+        .invite-msg {
+            color: #20c997;
+            font-size: 0.95rem;
+            margin-bottom: 24px;
+        }
+        .invite-btn {
+            display: inline-block;
+            font-family: 'SUSE', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            padding: 16px 48px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #20c997, #ff7f50);
+            color: #1e1e1e;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .invite-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 28px rgba(32, 201, 151, 0.35);
+        }
+
+        @media (max-width: 480px) {
+            .symbol-btn { font-size: 1.3rem; }
+            .symbol-grid { gap: 7px; }
+        }
+
+        /* Light mode */
+        body.light-mode .symbol-btn {
+            background: #e8e8e8;
+            border-color: #ccc;
+            color: #1e1e1e;
+        }
+        body.light-mode .symbol-btn:hover:not(:disabled) {
+            background: #f0f0f0;
+            border-color: #00ad79;
+        }
+        body.light-mode .lonely-prompt { color: #666; }
+        body.light-mode .symbol-msg    { color: #aaa; }
+        body.light-mode .next-btn      { color: #999; border-color: #ccc; }
+        body.light-mode .next-btn:hover { color: #00ad79; border-color: #00ad79; }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div id="loader-wrapper">
+        <div class="loader-container">
+            <div class="liquid" id="liquid">
+                <div class="bubbles" id="bubbles"></div>
+            </div>
+        </div>
+    </div>
+
+    <nav>
+        <div class="nav-container">
+            <a href="../index.html" class="logo-title-link">
+                <div class="logo-title">
+                    <img src="../images/favicon.png" alt="Logo" class="logo">
+                    <span class="site-title">I'm Feeling...</span>
+                </div>
+            </a>
+            <ul>
+                <li>
+                    <div class="theme-switch-wrapper">
+                        <label class="theme-switch" for="checkbox">
+                            <input type="checkbox" id="checkbox" />
+                            <div class="slider round">
+                                <div class="slider-icons">
+                                    <i class="fa-solid fa-sun"></i>
+                                    <i class="fa-solid fa-moon"></i>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="lonely-frame section-frame">
+            <h2>find the right symbol.</h2>
+            <p class="lonely-prompt">it may or may not be here. keep looking.</p>
+
+            <div class="symbol-grid" id="symbol-grid"></div>
+            <div class="symbol-msg"  id="symbol-msg"></div>
+
+            <div class="grid-controls" id="grid-controls">
+                <button class="next-btn" id="next-btn">next &rarr;</button>
+            </div>
+
+            <div class="invite-section" id="invite-section">
+                <p class="invite-msg">you found it.</p>
+                <a id="invite-link" href="#" target="_blank" rel="noopener" class="invite-btn">
+                    join the server &rarr;
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        const TARGET = 0x03C0; // π — no literal in source
+        const GRID_SIZE = 10;
+        let locked = false;
+        let wrongCount = 0;
+        let inviteUrl = '';
+
+        // Full universe of symbols — π lives here too, as a codepoint
+        const pool = [
+            // Greek lowercase (all 24, including π at 0x03C0)
+            '\u03B1','\u03B2','\u03B3','\u03B4','\u03B5','\u03B6','\u03B7','\u03B8',
+            '\u03B9','\u03BA','\u03BB','\u03BC','\u03BD','\u03BE','\u03BF','\u03C0',
+            '\u03C1','\u03C3','\u03C4','\u03C5','\u03C6','\u03C7','\u03C8','\u03C9',
+            // Greek uppercase
+            '\u0393','\u0394','\u0398','\u039B','\u039E','\u03A0','\u03A3',
+            '\u03A5','\u03A6','\u03A8','\u03A9',
+            // Set & logic
+            '\u2200','\u2201','\u2202','\u2203','\u2204','\u2205','\u2206','\u2207',
+            '\u2208','\u2209','\u220A','\u220B','\u220C','\u220F','\u2210','\u2211',
+            '\u2213','\u2218','\u2219','\u221A','\u221B','\u221C','\u221D','\u221E',
+            '\u2220','\u2221','\u2227','\u2228','\u2229','\u222A','\u222B','\u222C',
+            '\u2234','\u2235','\u223C','\u2248','\u2249','\u2260','\u2261','\u2262',
+            '\u2264','\u2265','\u226A','\u226B','\u227A','\u227B','\u2282','\u2283',
+            '\u2284','\u2286','\u2287','\u228A','\u228B','\u2295','\u2296','\u2297',
+            '\u2298','\u2299','\u229A','\u229B',
+            // Turnstiles & entailment
+            '\u22A2','\u22A3','\u22A4','\u22A5','\u22A7','\u22A8','\u22A9',
+            '\u22AC','\u22AD','\u22AE','\u22AF',
+            // More operators
+            '\u22B4','\u22B5','\u22BB','\u22BC','\u22BD',
+            '\u22C0','\u22C1','\u22C2','\u22C3','\u22C4','\u22C5','\u22C6',
+            '\u22C8','\u22C9','\u22CA','\u22CB','\u22CC',
+            '\u22D0','\u22D1','\u22D6','\u22D7','\u22D8','\u22D9',
+            // Arrows
+            '\u2190','\u2191','\u2192','\u2193','\u2194','\u2195',
+            '\u21A3','\u21A6','\u21A9','\u21AA','\u21CC','\u21CB',
+            '\u21D0','\u21D1','\u21D2','\u21D3','\u21D4','\u21D5',
+            '\u27F5','\u27F6','\u27F7','\u27F8','\u27F9','\u27FA',
+            // Letterlike / number sets
+            '\u2102','\u210F','\u2111','\u2113','\u2115','\u2118',
+            '\u211A','\u211C','\u211D','\u2124','\u2126','\u212B',
+            '\u2135','\u2136','\u2137','\u2138',
+            // Brackets & delimiters
+            '\u2308','\u2309','\u230A','\u230B',
+            '\u27E6','\u27E7','\u27E8','\u27E9','\u27EA','\u27EB',
+            '\u2985','\u2986',
+            // APL & array programming
+            '\u233D','\u233F','\u2340','\u2352','\u2353','\u2355',
+            '\u235D','\u235F','\u2363','\u2364','\u2365','\u2368',
+            '\u2371','\u2372','\u2336','\u2337',
+            // Misc math & logic
+            '\u00AC','\u00B1','\u00D7','\u00F7','\u2032','\u2033','\u2034',
+            '\u2016','\u2020','\u2021','\u2022','\u25CA','\u00B0',
+        ];
+
+        const wrongMsgs = [
+            'nope.',
+            'not quite.',
+            'hmm.',
+            '...',
+            'close. (not really)',
+            'try again.',
+            "that\u2019s not it.",
+            'bold choice.',
+            'interesting. wrong, but interesting.',
+            'keep looking.',
+            'maybe next page.',
+            'i believe in you. (still wrong though)',
+        ];
+
+        const COOLDOWN_MS = 5000;
+
+        try {
+            const res = await fetch('../jsons/lonely.json');
+            const data = await res.json();
+            inviteUrl = data.inviteUrl;
+        } catch (e) {}
+
+        function getCooldownRemaining() {
+            const m = location.hash.match(/cd=(\d+)/);
+            if (!m) return 0;
+            return Math.max(0, COOLDOWN_MS - (Date.now() - parseInt(m[1])));
+        }
+
+        function beginCooldown(prefix) {
+            locked = true;
+            const msgEl = document.getElementById('symbol-msg');
+            (function tick() {
+                const rem = getCooldownRemaining();
+                if (rem <= 0) {
+                    locked = false;
+                    msgEl.textContent = '';
+                    // Restore URL without hash, keeping existing ?theme= param
+                    history.replaceState(null, '', location.pathname + location.search);
+                    return;
+                }
+                msgEl.textContent = prefix
+                    ? prefix + ' (' + Math.ceil(rem / 1000) + 's)'
+                    : 'cooldown: ' + Math.ceil(rem / 1000) + 's';
+                setTimeout(tick, 200);
+            })();
+        }
+
+        function shuffle(arr) {
+            const a = [...arr];
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        function buildGrid() {
+            const grid = document.getElementById('symbol-grid');
+            grid.innerHTML = '';
+            if (!locked) document.getElementById('symbol-msg').textContent = '';
+            shuffle(pool).slice(0, GRID_SIZE).forEach(sym => {
+                const btn = document.createElement('button');
+                btn.className = 'symbol-btn';
+                btn.textContent = sym;
+                btn.addEventListener('click', () => onPick(sym));
+                grid.appendChild(btn);
+            });
+        }
+
+        function onPick(sym) {
+            if (locked) return;
+            if (sym.codePointAt(0) === TARGET) {
+                document.getElementById('symbol-grid').style.display    = 'none';
+                document.getElementById('symbol-msg').style.display     = 'none';
+                document.getElementById('grid-controls').style.display  = 'none';
+                const section = document.getElementById('invite-section');
+                const link    = document.getElementById('invite-link');
+                section.style.display = 'block';
+                try { link.href = atob(inviteUrl); } catch (e) { link.href = inviteUrl; }
+            } else {
+                const msg = wrongMsgs[wrongCount % wrongMsgs.length];
+                wrongCount++;
+                location.hash = 'cd=' + Date.now();
+                beginCooldown(msg);
+            }
+        }
+
+        document.getElementById('next-btn').addEventListener('click', () => {
+            if (locked) return;
+            buildGrid();
+        });
+
+        // Resume cooldown if page was refreshed mid-cooldown
+        const remaining = getCooldownRemaining();
+        if (remaining > 0) beginCooldown('');
+
+        buildGrid();
+    });
+    </script>
+
+    <script src="../js/theme.js"></script>
+    <script src="../js/loader.js"></script>
+</body>
+</html>

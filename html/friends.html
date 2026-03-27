@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friends</title>
+    <link rel="icon" href="../images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/loader.css">
+    <link rel="stylesheet" href="" id="theme-style">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=SUSE+Mono:ital,wght@0,100..800;1,100..800&family=SUSE:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <style>
+        .terminal-window {
+            text-align: left;
+            padding: 0;
+            overflow: hidden;
+            max-width: 700px;
+            margin: 60px auto 40px;
+        }
+        .terminal-titlebar {
+            background: #3a3a3a;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-radius: 15px 15px 0 0;
+        }
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .terminal-dot--red    { background: #ff5f57; }
+        .terminal-dot--yellow { background: #febc2e; }
+        .terminal-dot--green  { background: #28c840; }
+        .terminal-title {
+            flex: 1;
+            text-align: center;
+            font-family: 'SUSE Mono', monospace;
+            font-size: 0.7em;
+            color: #888;
+        }
+        .terminal-body {
+            padding: 20px 24px 24px;
+            font-family: 'SUSE Mono', monospace;
+            font-size: 0.82em;
+            line-height: 1.6;
+        }
+        .terminal-line {
+            margin: 2px 0;
+            color: #f0f0f0;
+        }
+        .terminal-prompt {
+            color: #20c997;
+            margin-right: 8px;
+            user-select: none;
+        }
+        .terminal-cursor {
+            display: inline-block;
+            animation: blink 1s step-end infinite;
+            color: #f0f0f0;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0; }
+        }
+        .friend-entries {
+            margin: 8px 0 4px 0;
+        }
+        .friend-entry {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            padding: 5px 8px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #f0f0f0;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+        .friend-entry:hover {
+            background: rgba(32, 201, 151, 0.12);
+        }
+        .friend-perms {
+            color: #555;
+            flex-shrink: 0;
+        }
+        .friend-name {
+            color: #20c997;
+            font-weight: bold;
+            min-width: 160px;
+            flex-shrink: 0;
+        }
+        .friend-desc {
+            color: #888;
+        }
+        .friend-entry:hover .friend-name { color: #ff7f50; }
+        .friend-entry:hover .friend-desc { color: #aaa; }
+        .terminal-status {
+            margin-top: 10px;
+            min-height: 1.4em;
+            color: transparent;
+            transition: color 0.15s ease;
+        }
+        .terminal-status.active {
+            color: #ff7f50;
+        }
+
+        /* Light mode overrides */
+        body.light-mode .terminal-titlebar { background: #ddd; }
+        body.light-mode .terminal-dot--red    { background: #ff5f57; }
+        body.light-mode .terminal-dot--yellow { background: #febc2e; }
+        body.light-mode .terminal-dot--green  { background: #28c840; }
+        body.light-mode .terminal-title { color: #888; }
+        body.light-mode .terminal-line  { color: #1e1e1e; }
+        body.light-mode .terminal-body  { background: #f8f8f8; }
+        body.light-mode .friend-entry   { color: #1e1e1e; }
+        body.light-mode .friend-perms   { color: #aaa; }
+        body.light-mode .friend-entry:hover { background: rgba(0, 173, 121, 0.1); }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div id="loader-wrapper">
+        <div class="loader-container">
+            <div class="liquid" id="liquid">
+                <div class="bubbles" id="bubbles"></div>
+            </div>
+        </div>
+    </div>
+
+    <nav>
+        <div class="nav-container">
+            <a href="../index.html" class="logo-title-link">
+                <div class="logo-title">
+                    <img src="../images/favicon.png" alt="Logo" class="logo">
+                    <span class="site-title">I'm Feeling...</span>
+                </div>
+            </a>
+            <ul>
+                <li>
+                    <div class="theme-switch-wrapper">
+                        <label class="theme-switch" for="checkbox">
+                            <input type="checkbox" id="checkbox" />
+                            <div class="slider round">
+                                <div class="slider-icons">
+                                    <i class="fa-solid fa-sun"></i>
+                                    <i class="fa-solid fa-moon"></i>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="terminal-window section-frame">
+            <div class="terminal-titlebar">
+                <span class="terminal-dot terminal-dot--red"></span>
+                <span class="terminal-dot terminal-dot--yellow"></span>
+                <span class="terminal-dot terminal-dot--green"></span>
+                <span class="terminal-title">bash &mdash; friends</span>
+            </div>
+            <div class="terminal-body">
+                <div class="terminal-line">
+                    <span class="terminal-prompt">~$</span>ls friends/
+                </div>
+                <div class="friend-entries" id="friend-list"></div>
+                <div class="terminal-status" id="terminal-status"></div>
+                <div class="terminal-line">
+                    <span class="terminal-prompt">~$</span><span class="terminal-cursor">▋</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function loadFriends() {
+            const res = await fetch('../jsons/friends.json');
+            const data = await res.json();
+            const list = document.getElementById('friend-list');
+            const status = document.getElementById('terminal-status');
+
+            data.friends.forEach(friend => {
+                const a = document.createElement('a');
+                a.href = friend.url;
+                a.target = '_blank';
+                a.rel = 'noopener';
+                a.className = 'friend-entry';
+                a.innerHTML =
+                    `<span class="friend-perms">drwxr-xr-x</span>` +
+                    `<span class="friend-name">${friend.name}/</span>` +
+                    `<span class="friend-desc"># ${friend.description}</span>`;
+
+                a.addEventListener('mouseenter', () => {
+                    status.textContent = `> visiting: ${friend.name}...`;
+                    status.classList.add('active');
+                });
+                a.addEventListener('mouseleave', () => {
+                    status.textContent = '';
+                    status.classList.remove('active');
+                });
+
+                list.appendChild(a);
+            });
+        }
+        loadFriends();
+    </script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/loader.js"></script>
+</body>
+</html>

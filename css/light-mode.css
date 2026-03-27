@@ -1,0 +1,73 @@
+body {
+    background-color: #f0f0f0;
+    color: #1e1e1e;
+}
+
+summary {
+    font-weight: bold;
+    cursor: pointer;
+    color: #00ad79;
+}
+
+h1, h2, h3 {
+    color: #1e1e1e;
+}
+
+.section-frame {
+    background-color: #f0f0f0;
+}
+
+.section-frame a {
+    color: #00ad79;
+}
+
+.blog-card {
+    background-color: #e0e0e0;
+}
+
+details {
+    background-color: #f0f0f0;
+}
+
+input:checked + .slider:before {
+    background-color: #ff7f50;
+}
+
+/* Loader Light Mode Overrides */
+#loader-wrapper {
+    background-color: #f0f0f0 !important;
+}
+
+.loader-container {
+    background: rgba(0, 0, 0, 0.05) !important;
+    box-shadow:
+            inset 0 0 15px rgba(0,0,0,0.1),
+            0 0 10px rgba(0, 0, 0, 0.1) !important;
+    border: 1px solid rgba(0, 0, 0, 0.2) !important;
+}
+
+.loader-container::before {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.05), transparent) !important;
+}
+
+.liquid {
+    background: rgba(255, 165, 0, 0.4) !important; /* Coral color for light mode */
+    box-shadow:
+            0 0 20px rgba(255, 127, 80, 0.4),
+            inset 0 0 10px rgba(255, 100, 50, 0.5) !important;
+}
+
+.bubble {
+    background: rgba(255, 255, 255, 0.6) !important;
+    box-shadow: inset 0 0 2px rgba(0,0,0,0.2) !important;
+}
+
+.liquid::after {
+    /* Adjust noise opacity for light background */
+    opacity: 0.15 !important;
+    mix-blend-mode: multiply !important;
+}
+
+.feeling-title {
+    color: #1e1e1e;
+}

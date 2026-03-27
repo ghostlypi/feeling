@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Test</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #222;
+            font-family: sans-serif;
+            color: #fff;
+        }
+
+        .loader-container {
+            position: relative;
+            width: 300px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow:
+                    inset 0 0 15px rgba(0,0,0,0.8),
+                    0 0 10px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+
+        /* Glass reflections */
+        .loader-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.1), transparent);
+            z-index: 20;
+            pointer-events: none;
+            border-radius: 20px 20px 0 0;
+        }
+
+        .liquid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 10%; /* Start with a little bit */
+            height: 100%;
+            background: rgba(255, 165, 0, 0.4); /* Translucent Orange */
+            box-shadow:
+                    0 0 20px rgba(255, 165, 0, 0.3),
+                    inset 0 0 10px rgba(255, 140, 0, 0.4);
+            transition: width 0.5s ease-out;
+
+            /* Wavy front effect */
+            border-radius: 20px 0 0 20px;
+            -webkit-mask-image:
+                linear-gradient(black, black),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='40' viewBox='0 0 10 40'%3E%3Cpath d='M0,0 L0,40 L5,40 Q15,30 5,20 Q-5,10 5,0 Z' fill='black'/%3E%3C/svg%3E");
+            -webkit-mask-size: calc(100% - 10px) 100%, 10px 40px;
+            -webkit-mask-position: left top, right 0;
+            -webkit-mask-repeat: no-repeat, repeat-y;
+
+            mask-image:
+                linear-gradient(black, black),
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='40' viewBox='0 0 10 40'%3E%3Cpath d='M0,0 L0,40 L5,40 Q15,30 5,20 Q-5,10 5,0 Z' fill='black'/%3E%3C/svg%3E");
+            mask-size: calc(100% - 10px) 100%, 10px 40px;
+            mask-position: left top, right 0;
+            mask-repeat: no-repeat, repeat-y;
+
+            overflow: hidden;
+            animation: waveMove 1.5s linear infinite;
+        }
+
+        @keyframes waveMove {
+            0% {
+                -webkit-mask-position: left top, right 0;
+                mask-position: left top, right 0;
+            }
+            100% {
+                -webkit-mask-position: left top, right 40px;
+                mask-position: left top, right 40px;
+            }
+        }
+
+        /* Noisy Front Effect */
+        .liquid::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 40px; /* Slightly wider */
+            height: 100%;
+            /* High contrast noise */
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+            background-size: 100px 100px;
+            /* Normal blend mode to ensure visibility */
+            mix-blend-mode: normal;
+            opacity: 0.3;
+            animation: staticNoise 0.2s steps(4) infinite;
+            /* Fade mask to blend it into the liquid */
+            -webkit-mask-image: linear-gradient(to right, transparent, black);
+            mask-image: linear-gradient(to right, transparent, black);
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .liquid.finished::after {
+            opacity: 0;
+            animation: none;
+        }
+
+        @keyframes staticNoise {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
+
+        /* Bubbles effect */
+        .bubbles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .bubble {
+            position: absolute;
+            left: -10px;
+            /* Background color same as body (#222) with 0.2 alpha */
+            background: rgba(34, 34, 34, 0.2);
+            border-radius: 50%;
+            animation: moveRight 2s infinite ease-in;
+            box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
+        }
+
+        @keyframes moveRight {
+            0% {
+                left: -10px;
+                transform: translateY(0) scale(0.5);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            100% {
+                left: 110%;
+                transform: translateY(-5px) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #666;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="loader-container">
+        <div class="liquid" id="liquid">
+            <div class="bubbles" id="bubbles"></div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button onclick="startLoading()">Start Loading</button>
+        <button onclick="resetLoading()">Reset</button>
+    </div>
+
+    <script>
+        const liquid = document.getElementById('liquid');
+        const bubblesContainer = document.getElementById('bubbles');
+        let progress = 10;
+        let interval;
+        let bubbleInterval;
+
+        function createBubble() {
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+
+            const size = Math.random() * 6 + 3 + 'px';
+            bubble.style.width = size;
+            bubble.style.height = size;
+
+            // Random position within the liquid height
+            bubble.style.top = Math.random() * 90 + 5 + '%';
+
+            bubble.style.animationDuration = (Math.random() * 1 + 0.5) + 's';
+            bubble.style.animationDelay = Math.random() * 0.2 + 's';
+
+            bubblesContainer.appendChild(bubble);
+
+            // Remove bubble after animation
+            setTimeout(() => {
+                bubble.remove();
+            }, 2000);
+        }
+
+        function startBubbles() {
+            if (bubbleInterval) clearInterval(bubbleInterval);
+            bubbleInterval = setInterval(createBubble, 100);
+        }
+
+        function stopBubbles() {
+            if (bubbleInterval) clearInterval(bubbleInterval);
+        }
+
+        function resetLoading() {
+            clearInterval(interval);
+            liquid.classList.remove('finished');
+            liquid.style.transition = 'width 0.5s ease-out';
+            progress = 10;
+            liquid.style.width = progress + '%';
+            startBubbles();
+        }
+
+        function startLoading() {
+            // Reset first to ensure clean state
+            clearInterval(interval);
+            liquid.classList.remove('finished');
+            liquid.style.transition = 'width 0.5s ease-out';
+            progress = 10;
+            liquid.style.width = progress + '%';
+
+            let elapsedTime = 0;
+            const totalWaitTime = 3000; // 3 seconds of waiting/boiling
+
+            interval = setInterval(() => {
+                elapsedTime += 100;
+
+                // Small fluctuation to look like it's boiling/alive
+                if (elapsedTime < totalWaitTime) {
+                    // Fluctuate between 10% and 15%
+                    const fluctuation = Math.sin(elapsedTime / 200) * 2;
+                    liquid.style.width = (12 + fluctuation) + '%';
+                } else {
+                    // Time's up, shoot to 100%
+                    clearInterval(interval);
+                    liquid.style.transition = 'width 0.4s cubic-bezier(0.1, 0.7, 1.0, 0.1)'; // Fast acceleration
+                    liquid.style.width = '100%';
+
+                    // Add finished class after transition completes (approx)
+                    setTimeout(() => {
+                        liquid.classList.add('finished');
+                    }, 400);
+                }
+            }, 100);
+        }
+
+        // Start bubbles initially
+        startBubbles();
+
+    </script>
+</body>
+</html>

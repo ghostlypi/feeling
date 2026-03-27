@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>:(</title>
+    <link rel="icon" href="../images/favicon.png" type="image/png">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/loader.css">
+    <link rel="stylesheet" href="" id="theme-style">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=SUSE+Mono:ital,wght@0,100..800;1,100..800&family=SUSE:ital,wght@0,100..900;1,100..900&display=swap"
+          rel="stylesheet">
+    <style>
+        .error-page {
+            max-width: 700px;
+            margin: 40px auto;
+            text-align: left;
+            padding: 20px;
+        }
+        .error-frown {
+            font-size: clamp(4rem, 12vw, 7rem);
+            font-weight: 300;
+            color: #20c997;
+            margin: 0 0 16px;
+            line-height: 1;
+        }
+        .error-title {
+            font-family: 'SUSE Mono', monospace;
+            font-size: clamp(0.9rem, 2.5vw, 1.15rem);
+            color: #ff7f50;
+            letter-spacing: 0.08em;
+            margin: 0 0 24px;
+            font-weight: bold;
+        }
+        .error-prose {
+            font-size: 1rem;
+            color: #c0c0c0;
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+        .error-progress-label {
+            font-family: 'SUSE Mono', monospace;
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 6px;
+        }
+        .error-progress-track {
+            width: 100%;
+            max-width: 400px;
+            height: 10px;
+            background: #333;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 32px;
+        }
+        .error-progress-fill {
+            width: 7%;
+            height: 100%;
+            background: linear-gradient(90deg, #20c997, #ff7f50);
+            border-radius: 5px;
+        }
+        .error-divider {
+            border: none;
+            border-top: 1px solid #333;
+            margin: 28px 0;
+        }
+        .error-technical {
+            font-family: 'SUSE Mono', monospace;
+            font-size: 0.78rem;
+            color: #666;
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+        .error-technical .hl-teal   { color: #20c997; }
+        .error-technical .hl-coral  { color: #ff7f50; }
+        .error-technical .hl-bright { color: #aaa; }
+        .error-reboot {
+            display: inline-block;
+            margin-top: 32px;
+            font-family: 'SUSE', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 12px 36px;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #20c997, #ff7f50);
+            color: #1e1e1e;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .error-reboot:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 24px rgba(32, 201, 151, 0.3);
+        }
+
+        /* Light mode */
+        body.light-mode .error-prose          { color: #444; }
+        body.light-mode .error-divider        { border-color: #ccc; }
+        body.light-mode .error-technical      { color: #999; }
+        body.light-mode .error-progress-track { background: #ddd; }
+        body.light-mode .error-technical .hl-bright { color: #555; }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div id="loader-wrapper">
+        <div class="loader-container">
+            <div class="liquid" id="liquid">
+                <div class="bubbles" id="bubbles"></div>
+            </div>
+        </div>
+    </div>
+
+    <nav>
+        <div class="nav-container">
+            <a href="../index.html" class="logo-title-link">
+                <div class="logo-title">
+                    <img src="../images/favicon.png" alt="Logo" class="logo">
+                    <span class="site-title">I'm Feeling...</span>
+                </div>
+            </a>
+            <ul>
+                <li>
+                    <div class="theme-switch-wrapper">
+                        <label class="theme-switch" for="checkbox">
+                            <input type="checkbox" id="checkbox" />
+                            <div class="slider round">
+                                <div class="slider-icons">
+                                    <i class="fa-solid fa-sun"></i>
+                                    <i class="fa-solid fa-moon"></i>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="error-page">
+            <div class="error-frown">:‼</div>
+            <div class="error-title">MINOR_INCONVENIENCE_OVERFLOW</div>
+
+            <p class="error-prose">
+                A negligible event has been catastrophically mishandled by the user.
+                Proportionality modules have stopped responding. The system cannot continue.
+            </p>
+
+            <div class="error-progress-label">Calming down: 7% complete</div>
+            <div class="error-progress-track">
+                <div class="error-progress-fill"></div>
+            </div>
+
+            <p class="error-prose">
+                If you'd like to know more, you can search online later for this error:<br>
+                <span style="font-family: 'SUSE Mono', monospace; color: #20c997;">MINOR_INC    { "":  }ONVENIENCE_OVERFLOW</span>
+            </p>
+
+            <hr class="error-divider">
+
+            <div class="error-technical"><span class="hl-bright">Technical Information:</span>
+
+*** STOP: <span class="hl-coral">0x0000DRAMA</span>
+          (<span class="hl-teal">0xPROPORTIONALITY_MODULE_MISSING</span>,
+           <span class="hl-teal">0xMOLEHILL_HEAP_OVERFLOW</span>,
+           <span class="hl-teal">0xSKY_CONFIRMED_FALLING</span>,
+           <span class="hl-teal">0xIT_IS_THE_END_OF_THE_WORLD</span>)
+
+A fatal exception has occurred in response to something that was,
+statistically speaking, <span class="hl-bright">completely fine.</span>
+The operating system has been shut down to prevent the user from
+making it everyone else's problem.
+
+<span class="hl-coral">CHILL.SYS</span> — Address <span class="hl-teal">CAFE:BABE</span> base at <span class="hl-teal">0000:0000</span>
+DateStamp: <span class="hl-bright">approximately_five_minutes_ago</span>
+
+Beginning dump of dramatic runtime...
+Stack trace: [ stubbed_toe → full_meltdown → ???  → profit ]
+Physical memory dump complete.</div>
+
+            <hr class="error-divider">
+
+            <div class="error-technical"><span class="hl-bright">Recovery Options — please select one:</span>
+
+  <span class="hl-teal">[1]</span>  <span class="hl-bright">Ignore the drama entirely.</span>
+         Works 94.7% of the time. Highly recommended.
+         Do not engage. Do not ask what's wrong. Wait 20 minutes.
+
+  <span class="hl-teal">[2]</span>  <span class="hl-bright">Tell me I'm being dramatic.</span>
+         Acceptable if delivered with affection and a slight smirk.
+         May provoke temporary escalation before resolution.
+
+  <span class="hl-teal">[3]</span>  <span class="hl-bright">Ask "is this really that bad?"</span>
+         A gentle reality check. Use a calm, curious tone.
+         Warning: do not attempt during peak volatility.
+
+  <span class="hl-teal">[4]</span>  <span class="hl-bright">Offer snacks.</span>
+         Root cause is frequently hunger. Success rate: 71%.
+
+  <span class="hl-teal">[5]</span>  <span class="hl-bright">Reboot the user.</span>
+         Send them outside. Touch grass protocol.
+         Estimated recovery time: 15–30 minutes.</div>
+
+            <a href="../index.html" class="error-reboot">&#x21BB; Reboot</a>
+        </div>
+    </div>
+
+    <script src="../js/theme.js"></script>
+    <script src="../js/loader.js"></script>
+</body>
+</html>
