@@ -1,7 +1,8 @@
 {
   "friends": [
-    { "name": "Matei", "url": "https://mateibudiu.com/",     "description": "aehmttw" },
-    { "name": "Abhi",  "url": "https://avedati.github.io",   "description": "spiderfencer" },
-    { "name": "Alex",  "url": "https://alexanderlyons.com/", "description":  "alexlyons"}
+    { "name": "Matei",  "url": "https://mateibudiu.com/",     "description": "aehmttw" },
+    { "name": "Abhi",   "url": "https://avedati.github.io",   "description": "spiderfencer" },
+    { "name": "Alex",   "url": "https://alexanderlyons.com/", "description": "alexlyons"},
+	{ "name": "Devang", "url": "https://www.hibiki.sh/",      "description": "hibiki"}
   ]
 }

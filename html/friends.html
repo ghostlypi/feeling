@@ -189,6 +189,12 @@
             const list = document.getElementById('friend-list');
             const status = document.getElementById('terminal-status');
 
+            // Shuffle friends so order is random on each load
+            for (let i = data.friends.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [data.friends[i], data.friends[j]] = [data.friends[j], data.friends[i]];
+            }
+
             data.friends.forEach(friend => {
                 const a = document.createElement('a');
                 a.href = friend.url;
