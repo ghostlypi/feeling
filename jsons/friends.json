@@ -1,8 +1,6 @@
 {
   "friends": [
     { "name": "Matei", "url": "https://mateibudiu.com/", "description": "aehmttw" },
-    { "name": "Shira", "url": "https://example.com", "description": "shisket" },
-    { "name": "Anjeli", "url": "https://example.com", "description": "glassbones" },
     { "name": "Abhi", "url": "https://avedati.github.io", "description": "spiderfencer" }
   ]
 }
