@@ -14,6 +14,7 @@
     { "word": "graphics",   "url": "https://www.vulkan.org/"},
     { "word": "money",      "url": "https://www.youtube.com/watch?v=ETxmCCsMoD0"},
     { "word": "lonely",     "url": "html/lonely.html"},
-	{ "word": "apple",      "url": "https://asahilinux.org/"}
+	{ "word": "apple",      "url": "https://asahilinux.org/"},
+    { "word": "worldly",    "url": "html/countries.html"}
   ]
 }

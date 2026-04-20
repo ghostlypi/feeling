@@ -230,6 +230,27 @@ footer {
     text-align: center;
 }
 
+.footer-legal {
+    margin-top: 8px;
+    font-size: 0.78rem;
+    color: #555;
+}
+
+.footer-legal a {
+    color: #666;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-legal a:hover {
+    color: #888;
+    text-decoration: underline;
+}
+
+body.light-mode .footer-legal { color: #aaa; }
+body.light-mode .footer-legal a { color: #999; }
+body.light-mode .footer-legal a:hover { color: #666; }
+
 /* Feeling page */
 .feeling-main {
     min-height: calc(100vh - 64px);
