@@ -1,0 +1,23 @@
+# Publish ghostlypi.com from Reliable Rocky as soon as main changes (pilan: server/websites).
+# SITE_DEPLOY_KEY can only run site-deploy-ssh, which deploys a site listed in ~/websites/sites.
+name: Deploy
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: docker
+    steps:
+      - name: Publish ghostlypi.com
+        env:
+          KEY: ${{ secrets.SITE_DEPLOY_KEY }}
+        run: |
+          umask 077
+          printf '%s\n' "$KEY" > ~/deploy-key
+          echo 'host.containers.internal ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBbJUpHKllsBj3Nh989ay6IsY5Nd8akHrMnOMiiGm8KX' > ~/known_hosts
+          ssh -i ~/deploy-key -o UserKnownHostsFile=~/known_hosts -o BatchMode=yes -o LogLevel=ERROR \
+              pi@host.containers.internal ghostlypi.com
