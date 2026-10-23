@@ -1,7 +1,7 @@
 {
   "name": "I'm Feeling...",
   "framework": {
-    "path": "../site-framework"
+    "path": "../coralfw"
   },
   "build": {
     "output": "dist",
