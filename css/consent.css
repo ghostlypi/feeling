@@ -1,0 +1,38 @@
+/* Shared terms dialog; native modality contains focus and blocks background input. */
+body.consent-pending { overflow: hidden; }
+#tnc-consent-popup {
+    box-sizing: border-box;
+    width: min(520px, calc(100% - 24px));
+    max-height: calc(100vh - 24px);
+    max-height: calc(100dvh - 24px);
+    margin: auto;
+    padding: clamp(16px, 4vw, 30px);
+    border: 1px solid #444;
+    border-radius: 15px;
+    background: #2a2a2a;
+    color: #f0f0f0;
+    box-shadow: 0 6px 30px rgba(0, 0, 0, .7);
+    text-align: center;
+    font: inherit;
+    line-height: 1.6;
+    overflow-y: auto;
+    overflow-wrap: anywhere;
+}
+#tnc-consent-popup::backdrop { background: rgba(10, 10, 10, .94); }
+#tnc-consent-popup h2 { margin: 0 0 16px; font-size: 1.15em; color: inherit; }
+#tnc-consent-popup a { color: #20c997; }
+#tnc-consent-popup .consent-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+#tnc-consent-popup button {
+    min-height: 44px;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #20c997 0%, #ff7f50 100%);
+    color: #1e1e1e;
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+#tnc-consent-popup :focus-visible { outline: 3px solid #ff7f50; outline-offset: 3px; }
+html.light-mode #tnc-consent-popup { background: #f0f0f0; color: #1e1e1e; }
+html.light-mode #tnc-consent-popup a { color: #007f59; }

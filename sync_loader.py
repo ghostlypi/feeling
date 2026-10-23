@@ -111,7 +111,9 @@ if __name__ == '__main__':
                 stale.append(name)
         for name in stale:
             print(f'Shared asset differs from framework manifest: {name}')
-    changed = sync_pages(check=args.check)
+    from sync_ui import sync_pages as sync_ui_pages
+    changed = sync_ui_pages(ROOT, check=args.check)
+    changed.extend(sync_pages(check=args.check))
     for page in changed:
         print(page)
     raise SystemExit(1 if args.check and (changed or stale) else 0)

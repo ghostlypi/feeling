@@ -1,16 +1,20 @@
 {
   "source": "coralfw",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "files": {
     "css/base.css": "91a985135e802caa40ea87ec4dd44bc7c5409686c9245c1dd3de34e5bae4ba0a",
+    "css/consent.css": "0ebe25ca3c05ebfa7901da0d20f7abadb2aee5f934e2287ec91903b82a65c796",
     "css/loader.css": "b6bb75d9af04039e6dfe52bc5dce87f0c899d24fad2d453050488fff248a0f64",
     "css/theme-light.css": "87ae630ad9e0250ba1f0276acaef7b86fb360f2210be17b1eeab2382ce36067b",
+    "js/consent.js": "c496a0d39dc3ac6d454cc8d7be687e5ef9ce9a1e2ffae4cc9f2cccfdb36dc7c2",
     "js/loader.js": "9855fa0eea448519ccbf20e673c40b60d6f81fda1417128ae7348cda5b2817fd",
-    "js/theme.js": "0e4c02d26066b8362a042afd4c2d8f36d0969989da2847879a7b9d179212c0f3",
+    "js/theme.js": "448807e6deff2124eac7fbf8c17b00f57e514a6691b2eb562abc199919a42e08",
     "legacy/css/loader.css": "50c22040591707232eb15b9b600383cc7e236a7955a55b82ad48a842aadafbb8",
     "legacy/js/loader.js": "18a8100e809b54fdcae0c22aec2f80ada4819a5fd2c5d8ad1e57cb547ea1ddc1",
     "legacy/js/tired-loader.js": "a11aa52bfddfeb52ec006ea9018823e8a5cbf80a99a6ed971111452083633aac",
-    "sync_loader.py": "c158545ba416508b32bacfb83b2fb9d2f9ee7fc7cd7eddf203253d6397d3443e",
+    "sync_loader.py": "b693dfa1f01ff1c937cd1a59a63ffc4bb675070f9ac47d8068baf3a07b8ab3ab",
+    "sync_ui.py": "943593e293aa68b2d3597a4fcfa43ae6ad17964f9da42e77b47a75afdb3e1e3a",
+    "theme.js": "448807e6deff2124eac7fbf8c17b00f57e514a6691b2eb562abc199919a42e08",
     "web": "ba0ba6ff44f64ce43de4b40d38cdfd58af9e0813abcf4dfdc1efe6df9ea37a7d"
   }
 }
