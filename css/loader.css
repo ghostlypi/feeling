@@ -1,17 +1,13 @@
-/* Loader Styles */
+/* Only the ampule is visible; all styles stay scoped to the site loader. */
 #loader-wrapper {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background-color: #222;
     z-index: 9999;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+    transition: opacity .5s ease-out, visibility .5s ease-out;
 }
 
 #loader-wrapper.loaded {
@@ -20,137 +16,53 @@
     pointer-events: none;
 }
 
-.loader-container {
-    position: relative;
-    width: 300px;
-    height: 40px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow:
-            inset 0 0 15px rgba(0,0,0,0.8),
-            0 0 10px rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    margin-bottom: 20px;
+#loader-wrapper .loader-container {
+    width: min(360px, calc(100vw - 48px));
 }
 
-/* Glass reflections */
-.loader-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
+#loader-wrapper .ampule {
+    display: block;
     width: 100%;
-    height: 50%;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.1), transparent);
-    z-index: 20;
-    pointer-events: none;
-    border-radius: 20px 20px 0 0;
+    height: auto;
+    overflow: visible;
 }
 
-.liquid {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0%; /* Start at 0 */
-    height: 100%;
-    background: rgba(255, 165, 0, 0.4); /* Translucent Orange */
-    box-shadow:
-            0 0 20px rgba(255, 165, 0, 0.3),
-            inset 0 0 10px rgba(255, 140, 0, 0.4);
-    transition: width 0.2s ease-out; /* Smoother transition for progress updates */
-
-    /* Wavy front effect */
-    border-radius: 20px 0 0 20px;
-    -webkit-mask-image:
-            linear-gradient(black, black),
-            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='40' viewBox='0 0 10 40'%3E%3Cpath d='M0,0 L0,40 L5,40 Q15,30 5,20 Q-5,10 5,0 Z' fill='black'/%3E%3C/svg%3E");
-    -webkit-mask-size: calc(100% - 10px) 100%, 10px 40px;
-    -webkit-mask-position: left top, right 0;
-    -webkit-mask-repeat: no-repeat, repeat-y;
-
-    mask-image:
-            linear-gradient(black, black),
-            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='40' viewBox='0 0 10 40'%3E%3Cpath d='M0,0 L0,40 L5,40 Q15,30 5,20 Q-5,10 5,0 Z' fill='black'/%3E%3C/svg%3E");
-    mask-size: calc(100% - 10px) 100%, 10px 40px;
-    mask-position: left top, right 0;
-    mask-repeat: no-repeat, repeat-y;
-
-    overflow: hidden;
-    animation: waveMove 1.5s linear infinite;
+#loader-wrapper .ampule-drift {
+    transform-origin: center;
+    animation: ampule-drift 7s ease-in-out infinite alternate;
 }
 
-@keyframes waveMove {
-    0% {
-        -webkit-mask-position: left top, right 0;
-        mask-position: left top, right 0;
-    }
-    100% {
-        -webkit-mask-position: left top, right 40px;
-        mask-position: left top, right 40px;
-    }
+@keyframes ampule-drift {
+    from { transform: translateY(-8px) scaleY(1.08); }
+    to { transform: translateY(8px) scaleY(1.08); }
 }
 
-/* Noisy Front Effect */
-.liquid::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 40px; /* Slightly wider */
-    height: 100%;
-    /* High contrast noise */
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
-    background-size: 100px 100px;
-    /* Normal blend mode to ensure visibility */
-    mix-blend-mode: normal;
-    opacity: 0.3;
-    animation: staticNoise 0.2s steps(4) infinite;
-    /* Fade mask to blend it into the liquid */
-    -webkit-mask-image: linear-gradient(to right, transparent, black);
-    mask-image: linear-gradient(to right, transparent, black);
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-}
-
-.liquid.finished::after {
+#loader-wrapper .ampule-bubble {
+    transform-box: fill-box;
+    transform-origin: center;
     opacity: 0;
-    animation: none;
+    animation: ampule-bubble-rise var(--duration, 3s) linear var(--delay, 0s) infinite;
 }
 
-/* Bubbles effect */
-.bubbles {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    pointer-events: none;
+@keyframes ampule-bubble-rise {
+  0% { opacity: 1; transform: translate(0, 0) scale(0); }
+  10% { opacity: 1; transform: translate(calc(var(--travel) * .1), 0) scale(.65, .8); }
+  45% { opacity: 1; transform: translate(calc(var(--travel) * .55), var(--wobble, 6px)) scale(1.05, .95); }
+  72% { opacity: 1; transform: translate(calc(var(--travel) - 20px), 0) scale(1.25, 1.1); }
+  84% { opacity: 1; transform: translate(calc(var(--travel) - 9px), 0) scale(1.3, 1.5); }
+  90% { opacity: 1; transform: translate(var(--travel), 0) scale(1.05, 1.6); }
+  96% { opacity: 1; transform: translate(calc(var(--travel) + 4px), 0) scale(.65, .8); }
+  100% { opacity: 1; transform: translate(calc(var(--travel) + 12px), 0) scale(0); }
 }
 
-.bubble {
-    position: absolute;
-    left: -10px;
-    /* Background color same as body (#222) with 0.2 alpha */
-    background: rgba(34, 34, 34, 0.2);
-    border-radius: 50%;
-    animation: moveRight 2s infinite ease-in;
-    box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
+#loader-wrapper #ampule-bubbles[data-active="false"] .ampule-bubble,
+#loader-wrapper.loaded .ampule-bubble,
+#loader-wrapper.loaded .ampule-drift {
+    animation-play-state: paused;
 }
 
-@keyframes moveRight {
-    0% {
-        left: -10px;
-        transform: translateY(0) scale(0.5);
-        opacity: 0;
-    }
-    20% {
-        opacity: 1;
-    }
-    100% {
-        left: 110%;
-        transform: translateY(-5px) scale(1.2);
-        opacity: 0;
-    }
+@media (prefers-reduced-motion: reduce) {
+    #loader-wrapper { transition: none; }
+    #loader-wrapper .ampule-drift { animation: none; }
+    #loader-wrapper .ampule-bubble { animation: none; display: none; }
 }

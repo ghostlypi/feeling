@@ -1,0 +1,39 @@
+body {
+    background-color: #f0f0f0;
+    color: #1e1e1e;
+}
+
+summary {
+    font-weight: bold;
+    cursor: pointer;
+    color: #00ad79;
+}
+
+h1, h2, h3 {
+    color: #1e1e1e;
+}
+
+.section-frame {
+    background-color: #f0f0f0;
+}
+
+.section-frame a {
+    color: #00ad79;
+}
+
+.blog-card {
+    background-color: #e0e0e0;
+}
+
+details {
+    background-color: #f0f0f0;
+}
+
+input:checked + .slider:before {
+    background-color: #ff7f50;
+}
+
+/* Loader Light Mode Overrides */
+#loader-wrapper {
+    background-color: #f0f0f0 !important;
+}

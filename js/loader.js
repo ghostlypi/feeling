@@ -1,68 +1,222 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const loaderWrapper = document.getElementById('loader-wrapper');
-    const liquid = document.getElementById('liquid');
-    const bubblesContainer = document.getElementById('bubbles');
-    let bubbleInterval;
+(() => {
+    function initLoader() {
+        const wrapper = document.getElementById('loader-wrapper');
+        const container = wrapper?.querySelector('.loader-container');
+        if (!container) return;
+        if (container.dataset.initialized) return;
+        container.dataset.initialized = 'true';
 
-    function createBubble() {
-        const bubble = document.createElement('div');
-        bubble.classList.add('bubble');
+        // Shared markup keeps the ampule identical on every page using this loader.
+        container.innerHTML = `<svg class="ampule" viewBox="0 0 840 260" aria-hidden="true">
+  <defs>
+    <!-- Equal semicircular ends make a perfectly symmetric pill. -->
+    <rect id="ampule-vessel" x="22" y="36" width="796" height="188" rx="94"/>
+    <clipPath id="ampule-inside"><use href="#ampule-vessel"/></clipPath>
+    <path id="ampule-liquidShape" d="M0 36 H426 Q420 46 420 66 V194 Q420 214 426 224 H0 Z"/>
+    <linearGradient id="ampule-supercriticalGradient" gradientUnits="userSpaceOnUse" x1="22" y1="36" x2="818" y2="224" color-interpolation="sRGB">
+      <stop offset="0" stop-color="#FF7F50FF"/>
+      <stop offset="1" stop-color="#20C997FF"/>
+    </linearGradient>
+    <linearGradient id="ampule-glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f3f2d4" stop-opacity=".19"/>
+      <stop offset=".12" stop-color="#f4f0d2" stop-opacity=".025"/>
+      <stop offset=".46" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".86" stop-color="#111809" stop-opacity=".1"/>
+      <stop offset="1" stop-color="#e8eed3" stop-opacity=".17"/>
+    </linearGradient>
+    <linearGradient id="ampule-rim" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#d4d9bb" stop-opacity=".65"/>
+      <stop offset=".5" stop-color="#8b9b7a" stop-opacity=".2"/>
+      <stop offset="1" stop-color="#c4cd9d" stop-opacity=".5"/>
+    </linearGradient>
+    <linearGradient id="ampule-surfaceFade" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#f8e6a2" stop-opacity=".15"/>
+      <stop offset=".5" stop-color="#f8e6a2" stop-opacity=".85"/>
+      <stop offset="1" stop-color="#f8e6a2" stop-opacity=".15"/>
+    </linearGradient>
+    <radialGradient id="ampule-haze">
+      <stop stop-color="#fff4c0" stop-opacity=".32"/>
+      <stop offset="1" stop-color="#fff4c0" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="ampule-soft"><feGaussianBlur stdDeviation="12"/></filter>
+    <filter id="ampule-shadow" x="-20%" y="-100%" width="140%" height="300%"><feGaussianBlur stdDeviation="9"/></filter>
+    <!-- Cut actual holes in the liquid to reveal the same vapor underneath.
+         At the surface each pocket opens into the vapor, then contracts. -->
+    <mask id="ampule-vaporPockets" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse" x="0" y="0" width="840" height="260" style="mask-type: luminance">
+      <rect width="840" height="260" fill="white"/>
+    <g id="ampule-bubbles" opacity="1" data-active="true" fill="black" pointer-events="none">
+      <circle class="ampule-bubble" cx="110" cy="71" r="6" style="--travel: 310px; --duration: 3.2s; --delay: -1.1s; --wobble: -7px"/>
+      <circle class="ampule-bubble" cx="155" cy="94" r="8" style="--travel: 265px; --duration: 3.8s; --delay: -2.8s; --wobble: 8px"/>
+      <circle class="ampule-bubble" cx="90" cy="161" r="7" style="--travel: 330px; --duration: 3.4s; --delay: -.4s; --wobble: -6px"/>
+      <circle class="ampule-bubble" cx="140" cy="187" r="9" style="--travel: 280px; --duration: 4.1s; --delay: -1.9s; --wobble: 7px"/>
+      <circle class="ampule-bubble" cx="185" cy="205" r="5" style="--travel: 235px; --duration: 2.7s; --delay: -2.2s; --wobble: -5px"/>
+      <circle class="ampule-bubble" cx="175" cy="56" r="5" style="--travel: 245px; --duration: 2.9s; --delay: -.6s; --wobble: 5px"/>
+      <circle class="ampule-bubble" cx="75" cy="112" r="6" style="--travel: 345px; --duration: 3.1s; --delay: -2.1s; --wobble: -8px"/>
+      <circle class="ampule-bubble" cx="120" cy="148" r="7" style="--travel: 300px; --duration: 3.6s; --delay: -3.2s; --wobble: 6px"/>
+      <circle class="ampule-bubble" cx="200" cy="81" r="8" style="--travel: 220px; --duration: 4.3s; --delay: -3.6s; --wobble: 7px"/>
+      <circle class="ampule-bubble" cx="170" cy="175" r="5" style="--travel: 250px; --duration: 2.8s; --delay: -1.3s; --wobble: -7px"/>
+    </g>
+    </mask>
+  </defs>
+  <ellipse cx="420" cy="239" rx="330" ry="9" fill="#000" opacity=".45" filter="url(#ampule-shadow)"/>
+  <g clip-path="url(#ampule-inside)">
+    <rect id="ampule-bulk" x="0" y="0" width="840" height="260" fill="#20C997FF"/>
+    <!-- Gravity points left: liquid stays in the left half. -->
+    <g id="ampule-liquid" opacity="1" mask="url(#ampule-vaporPockets)">
+      <use href="#ampule-liquidShape" fill="#FF7F50FF"/>
+    </g>
+    <rect id="ampule-supercritical" x="0" y="0" width="840" height="260" fill="url(#ampule-supercriticalGradient)" opacity="0"/>
+    <g id="ampule-cloud" opacity="0" filter="url(#ampule-soft)">
+      <ellipse class="ampule-drift" cx="420" cy="85" rx="100" ry="130" fill="url(#ampule-haze)"/>
+      <ellipse cx="430" cy="185" rx="110" ry="100" fill="url(#ampule-haze)"/>
+    </g>
+    <path id="ampule-meniscus" d="M426 36 Q420 46 420 66 V194 Q420 214 426 224" fill="none" stroke="url(#ampule-surfaceFade)" stroke-width="2" mask="url(#ampule-vaporPockets)"/>
+    <use href="#ampule-vessel" fill="url(#ampule-glass)"/>
+    <path d="M116 49 H724 A81 81 0 0 1 785 77" fill="none" stroke="#f1f3d8" stroke-width="3" stroke-linecap="round" opacity=".22"/>
+    <path d="M64 77 Q35 113 45 149" fill="none" stroke="#f4f6e3" stroke-width="6" stroke-linecap="round" opacity=".13"/>
+    <path d="M116 213 H724" fill="none" stroke="#f1f3d8" stroke-width="2" opacity=".12"/>
+  </g>
+  <use href="#ampule-vessel" fill="none" stroke="url(#ampule-rim)" stroke-width="2"/>
+</svg>`;
+        container.setAttribute('role', 'progressbar');
+        container.setAttribute('aria-label', 'Loading page');
+        container.setAttribute('aria-valuetext', 'Loading');
+        const part = name => container.querySelector(`#ampule-${name}`);
+        const liquidShape = part('liquidShape');
+        const meniscus = part('meniscus');
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const shownAt = performance.now();
+        let surfaceStrength = 1;
+        let surfaceFramePending = false;
 
-        const size = Math.random() * 6 + 3 + 'px';
-        bubble.style.width = size;
-        bubble.style.height = size;
+        function drawSurface(elapsed) {
+            // Pin the contact points to the glass and let two ripples travel
+            // along the interface. Both the liquid fill and its highlight use
+            // this exact curve, so the vapor never shows through a stray seam.
+            const segments = 16;
+            const phase = elapsed / 550;
+            function point(t) {
+                const envelope = Math.sin(Math.PI * t);
+                const wave = Math.sin(4 * Math.PI * t - phase);
+                const amplitude = 14 * surfaceStrength;
+                return {
+                    x: 420 + 6 * (2 * t - 1) ** 6 + amplitude * envelope * wave,
+                    y: 36 + 188 * t,
+                    slope: 72 * (2 * t - 1) ** 5 + amplitude * Math.PI * (
+                        Math.cos(Math.PI * t) * wave
+                        + 4 * envelope * Math.cos(4 * Math.PI * t - phase)
+                    ),
+                };
+            }
+            let boundary = 'M426 36';
+            let previous = point(0);
+            for (let i = 1; i <= segments; i++) {
+                const next = point(i / segments);
+                const step = 1 / (segments * 3);
+                boundary += ` C${previous.x + previous.slope * step} ${previous.y + 188 * step}`
+                    + ` ${next.x - next.slope * step} ${next.y - 188 * step} ${next.x} ${next.y}`;
+                previous = next;
+            }
+            liquidShape.setAttribute('d', `M0 36 H426${boundary.slice('M426 36'.length)} H0 Z`);
+            meniscus.setAttribute('d', boundary);
+        }
 
-        // Random position within the liquid height
-        bubble.style.top = Math.random() * 90 + 5 + '%';
+        function animateSurface(now) {
+            surfaceFramePending = false;
+            drawSurface(reducedMotion.matches ? 0 : now - shownAt);
+            startSurface();
+        }
 
-        bubble.style.animationDuration = (Math.random() * 1 + 0.5) + 's';
-        bubble.style.animationDelay = Math.random() * 0.2 + 's';
+        function startSurface() {
+            if (surfaceFramePending || reducedMotion.matches || surfaceStrength === 0
+                    || wrapper.classList.contains('loaded')) return;
+            surfaceFramePending = true;
+            requestAnimationFrame(animateSurface);
+        }
 
-        bubblesContainer.appendChild(bubble);
+        drawSurface(0);
+        startSurface();
+        reducedMotion.addEventListener?.('change', () => {
+            if (reducedMotion.matches) drawSurface(0);
+            else startSurface();
+        });
+        // The tired page shares the animation without ever revealing content.
+        if (wrapper.dataset.loaderMode === 'persistent') return;
+        // Page loading has no reliable percentage: stay indeterminate until load.
+        const fluid = part('supercritical');
+        const bubbles = part('bubbles');
+        const cloud = part('cloud');
+        const minimumDisplay = 2000;
+        const transitionDuration = 1000;
+        const gradientHold = 200;
+        let finishing = false;
 
-        // Remove bubble after animation
-        setTimeout(() => {
-            bubble.remove();
-        }, 2000);
+        function renderTransition(amount) {
+            const blend = amount * amount * (3 - 2 * amount);
+            const remaining = 1 - blend;
+            surfaceStrength = remaining;
+            if (remaining === 0) drawSurface(0);
+            fluid.setAttribute('opacity', blend);
+            meniscus.setAttribute('opacity', remaining * remaining);
+            bubbles.setAttribute('opacity', remaining);
+            bubbles.setAttribute('data-active', remaining > 0 ? 'true' : 'false');
+            cloud.setAttribute('opacity', Math.sin(blend * Math.PI) * .8);
+        }
+
+        function revealPage() {
+            wrapper.classList.add('loaded');
+            wrapper.setAttribute('aria-hidden', 'true');
+            // The existing consent flow listens for this event.
+            document.dispatchEvent(new CustomEvent('loaderComplete'));
+        }
+
+        function complete() {
+            renderTransition(1);
+            container.setAttribute('aria-valuenow', '100');
+            container.setAttribute('aria-valuetext', 'Loaded');
+            const delay = Math.max(
+                reducedMotion.matches ? 0 : gradientHold,
+                minimumDisplay - (performance.now() - shownAt)
+            );
+            if (delay > 0) window.setTimeout(revealPage, delay);
+            else revealPage();
+        }
+
+        function finishLoading() {
+            if (finishing) return;
+            finishing = true;
+            if (reducedMotion.matches) { complete(); return; }
+            function startTransition() {
+                if (reducedMotion.matches) { complete(); return; }
+                const started = performance.now();
+                function animate(now) {
+                    const amount = Math.min(1, (now - started) / transitionDuration);
+                    renderTransition(amount);
+                    if (amount < 1 && !reducedMotion.matches) requestAnimationFrame(animate);
+                    else complete();
+                }
+                requestAnimationFrame(animate);
+            }
+            // Fast loads still show boiling before the phase transition.
+            const delay = Math.max(0,
+                minimumDisplay - transitionDuration - gradientHold - (performance.now() - shownAt)
+            );
+            if (delay > 0) window.setTimeout(startTransition, delay);
+            else startTransition();
+        }
+
+        window.addEventListener('load', finishLoading, { once: true });
+        // Also works when the script is loaded after a cached page has finished.
+        if (document.readyState === 'complete') finishLoading();
     }
 
-    function startBubbles() {
-        if (bubbleInterval) clearInterval(bubbleInterval);
-        bubbleInterval = setInterval(createBubble, 100);
+    // The inline copy runs immediately after the loader placeholder, before
+    // the rest of the document, stylesheets, fonts, and images finish loading.
+    if (document.getElementById('loader-wrapper')) {
+        initLoader();
+    } else if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initLoader, { once: true });
+    } else {
+        initLoader();
     }
-
-    function stopBubbles() {
-        if (bubbleInterval) clearInterval(bubbleInterval);
-    }
-
-    // Start bubbles initially
-    startBubbles();
-
-    // Simulate loading progress
-    let progress = 0;
-    const interval = setInterval(() => {
-        // Increment progress randomly
-        progress += Math.random() * 15;
-        if (progress > 33) progress = 33; // Cap at 33% until fully loaded
-
-        liquid.style.width = progress + '%';
-    }, 200);
-
-    window.addEventListener('load', function() {
-        clearInterval(interval);
-        
-        // Finish loading animation
-        liquid.style.transition = 'width 0.4s cubic-bezier(0.1, 0.7, 1.0, 0.1)';
-        liquid.style.width = '100%';
-        
-        setTimeout(() => {
-            liquid.classList.add('finished');
-            stopBubbles();
-            
-            // Fade out loader
-            setTimeout(() => {
-                loaderWrapper.classList.add('loaded');
-            }, 500);
-        }, 400);
-    });
-});
+})();

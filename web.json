@@ -1,0 +1,38 @@
+{
+  "name": "I'm Feeling...",
+  "framework": {
+    "path": "../site-framework"
+  },
+  "build": {
+    "output": "dist",
+    "steps": [],
+    "include": [
+      "**/*.html",
+      "**/*.css",
+      "**/*.js",
+      "**/*.json",
+      "**/*.png",
+      "**/*.jpg",
+      "**/*.jpeg",
+      "**/*.gif",
+      "**/*.svg",
+      "**/*.webp",
+      "**/*.ico",
+      "**/*.woff",
+      "**/*.woff2",
+      "**/*.pdf",
+      "**/*.txt",
+      "**/*.xml",
+      "**/*.webmanifest",
+      "CNAME"
+    ],
+    "exclude": [
+      "web.json",
+      "framework-manifest.json",
+      "README.md",
+      "tests/**",
+      "legacy/**"
+    ]
+  },
+  "tasks": {}
+}

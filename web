@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+"""Project launcher for site-framework; run ./web tasks for available tasks."""
+import json
+import os
+from pathlib import Path
+import sys
+
+project = Path(__file__).resolve().parent
+try:
+    config = json.loads((project / 'web.json').read_text())
+    configured = os.environ.get('WEB_FRAMEWORK_HOME') or config['framework']['path']
+    framework = (project / configured).resolve()
+except (OSError, KeyError, ValueError) as error:
+    raise SystemExit(f'Cannot read framework configuration: {error}')
+entry = framework / 'web.py'
+if not entry.is_file():
+    raise SystemExit(
+        f'Framework not found at {framework}. Clone site-framework there, change '
+        'framework.path in web.json, or set WEB_FRAMEWORK_HOME.'
+    )
+os.execv(sys.executable, [sys.executable, str(entry), '--project', str(project), *sys.argv[1:]])
