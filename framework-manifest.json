@@ -1,5 +1,5 @@
 {
-  "source": "site-framework",
+  "source": "coralfw",
   "version": "0.1.1",
   "files": {
     "css/base.css": "be02c49ebc4d94edeeb08b9242e677da378faa06bffa72dfc14c12cc962b0c9e",
@@ -11,6 +11,6 @@
     "legacy/js/loader.js": "18a8100e809b54fdcae0c22aec2f80ada4819a5fd2c5d8ad1e57cb547ea1ddc1",
     "legacy/js/tired-loader.js": "a11aa52bfddfeb52ec006ea9018823e8a5cbf80a99a6ed971111452083633aac",
     "sync_loader.py": "c158545ba416508b32bacfb83b2fb9d2f9ee7fc7cd7eddf203253d6397d3443e",
-    "web": "d51fe40ca43b43cfa18666943b22906263a9ae630512aea30916eba2cd56d9d1"
+    "web": "ba0ba6ff44f64ce43de4b40d38cdfd58af9e0813abcf4dfdc1efe6df9ea37a7d"
   }
 }
